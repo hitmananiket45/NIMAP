@@ -1,0 +1,125 @@
+<div class="container">
+    <h3>Category Master <button type="button" class="btn btn-info" (click)="modalOpen(categorymodal,'add',null)">+Add
+            New
+            Category</button>
+    </h3>
+
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-12" style="margin-bottom: 10px;">
+            <div class="float-right">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" (click)="refreshPage()"> Refresh
+                    </button>
+                </div>
+                <span style="display:inline-block; margin:0 10px;">
+                    {{currentPage}} of {{totalRecords <= pageSize ? 1 : totalPages}}</span>
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary" (click)="previewPage()"
+                        [disabled]="currentPage == 1"> Prev
+                    </button>
+                    <button type="button" class="btn btn-secondary" (click)="nextPage()"
+                        [disabled]="totalPages <= 1 || currentPage >= totalPages"> Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div *ngIf="categoryList.length!==0 ; else noData">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Category Id</th>
+                        <th>Category Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let list of categoryList let i=index">
+                        <td><a href="javascript:" data-toggle="modal"
+                                (click)="viewRecord(categoryviewmodal,list)">{{list.categoryId}}</a></td>
+                        <td>{{list.categoryName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #noData>
+            No data
+        </ng-template>
+    </div>
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            This is a modal.
+        </div>
+    </ng-template>
+
+    <ng-template #categorymodal>
+        <div class="modal-fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+            data-backdrop="static">
+            <form [formGroup]="categoryGroup" (ngSubmit)="save()" #formDir="ngForm" novalidate autocomplete="off">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Category</h5>
+                        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <br />
+                    <div class="modal-body">
+                        <input type="hidden" formControlName="id">
+                        <div class="form-group">
+                            <label class="form-control-label">Category Name</label>
+                            <input type="text" class="form-control" id="Category name" placeholder="Category Name"
+                                formControlName="categoryName">
+                            <span class="validation-field" *ngIf="categoryName.invalid && formDir.submitted">
+                                Category Name is required
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-cancel" (click)="modalRef.hide()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <ng-template #categoryviewmodal>
+        <div class="modal-fade" id="category-Modal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true" data-backdrop="static">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Category Details</h5>
+                    <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bottom-margin-10"><b>Category Id</b> : {{categoryInfo.categoryId}}</div>
+                            <div class="bottom-margin-10"><b>Category Name</b> : {{categoryInfo.categoryName}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" (click)="delete(categoryInfo)">
+                        Delete</button>
+                    <button type="button" class="btn btn-default btn-sm"
+                        (click)="modalOpen(categorymodal,'edit',categoryInfo)">
+                        Edit</button>
+                    <button type="button" class="btn btn-cancel float-right" (click)="modalRef.hide()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

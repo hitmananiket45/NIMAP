@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"NimapDataBase.productMaster"}],"uuid":"84e45126cbdd42f1a3edbde3287b07e9"}

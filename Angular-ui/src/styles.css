@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.validation-field {
+    margin-top: 6px;
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: #d50000;
+}
